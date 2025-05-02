@@ -47,6 +47,7 @@
             "invalid_credentials": "Incorrect email or password",
             "user_not_found": "User not found",
             "user_already_exists": "User is already registered",
+            "weak_password": "Too weak password",
             "email_address_invalid": "Invalid email format"
         }
     }

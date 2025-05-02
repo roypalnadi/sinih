@@ -1,22 +1,21 @@
 'use client';
 
 import Navbar from '@/components/ui/navbar';
+import { useNotification } from '@/lib/ant-design/notification-context';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input, notification } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 export default function ForgetPassword() {
-    type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
     const params = useParams(); // Ambil [locale]
     const locale = params?.locale || 'en';
     const t = useTranslations();
     const [loading, setLoading] = useState(false);
-    const [api, contextHolder] = notification.useNotification();
+    const { showNotification } = useNotification();
 
     const onFinish = ({ email }: { email: string }) => {
         setLoading(true);
@@ -43,23 +42,6 @@ export default function ForgetPassword() {
             .finally(() => setLoading(false));
     };
 
-    const showNotification = ({
-        description,
-        message,
-        type,
-    }: {
-        description: string;
-        message: string;
-        type: NotificationType;
-    }) => {
-        api[type]({
-            message,
-            description,
-            pauseOnHover: false,
-            showProgress: true,
-        });
-    };
-
     const onFinishFailed = (errorInfo: unknown) => {
         console.log('Failed:', errorInfo);
     };
@@ -67,9 +49,8 @@ export default function ForgetPassword() {
     return (
         <>
             <Navbar withAction={false} />
-            {contextHolder}
             <div className="flex-1 flex justify-center items-center">
-                <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit max-w-md">
+                <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
                     <div className="flex flex-col gap-5">
                         <div className="flex flex-col text-center">
                             <span className="text-xl font-bold">Lupa Password</span>

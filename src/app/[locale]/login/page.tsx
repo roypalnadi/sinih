@@ -2,7 +2,7 @@
 
 import Navbar from '@/components/ui/navbar';
 import GoogleIcon from '@/components/icons/GoogleIcon';
-import { Button, Form, Input, notification } from 'antd';
+import { Button, Form, Input } from 'antd';
 import GithubIcon from '@/components/icons/GithubIcon';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { LoginOutlined } from '@ant-design/icons';
@@ -10,13 +10,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useNotification } from '@/lib/ant-design/notification-context';
 
 export default function Login() {
-    type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
     const t = useTranslations();
     const [loading, setLoading] = useState(false);
-    const [api, contextHolder] = notification.useNotification();
+    const { showNotification } = useNotification();
     const router = useRouter();
 
     const loginWithGoogle = () =>
@@ -29,23 +28,6 @@ export default function Login() {
             console.log(response.data);
             console.log(response.error);
         });
-
-    const showNotification = ({
-        description,
-        message,
-        type,
-    }: {
-        description: string;
-        message: string;
-        type: NotificationType;
-    }) => {
-        api[type]({
-            message,
-            description,
-            pauseOnHover: false,
-            showProgress: true,
-        });
-    };
 
     const loginWithPassword = ({ email, password }: { email: string; password: string }) => {
         setLoading(true);
@@ -76,9 +58,8 @@ export default function Login() {
     return (
         <>
             <Navbar withAction={false} />
-            {contextHolder}
             <div className="flex-1 flex justify-center items-center">
-                <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit max-w-md">
+                <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
                     <div className="flex flex-col gap-5">
                         <div className="flex flex-col text-center">
                             <span className="text-xl font-bold">Login</span>
@@ -178,7 +159,7 @@ export default function Login() {
                         <div className="w-full text-center">
                             <span className="text-gray-500 text-xs">
                                 {t('login.dont_have_account')}{' '}
-                                <Link href={'#'} className="text-blue-500">
+                                <Link href={'/sign-up'} className="text-blue-500">
                                     {t('login.bottom_create_account')}
                                 </Link>
                             </span>

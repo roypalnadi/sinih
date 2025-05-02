@@ -47,6 +47,7 @@
             "invalid_credentials": "Email atau password salah",
             "user_not_found": "User tidak ditemukan",
             "user_already_exists": "User sudah pernah didaftarkan",
+            "weak_password": "Password terlalu lemah",
             "email_address_invalid": "Format email salah"
         }
     }
