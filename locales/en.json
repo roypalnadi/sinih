@@ -1,0 +1,53 @@
+{
+    "navbar": {
+        "menu_1": "Join Meeting",
+        "menu_2": "Feature",
+        "button_1": "Sign Up"
+    },
+    "landing_page": {
+        "first": "Online Meeting that is <span>Easy</span> and <span>Lightweight</span>",
+        "first_sub": "Sinih is a lightweight web-based meeting platform. No need to install any apps — just start a meeting right from your browser.",
+        "button_1": "Join",
+        "button_2": "Start New Meeting",
+        "button_3": "Free Sign Up",
+        "feature_title": "Key Features",
+        "feature_sub": "Everything you need for effective online meetings",
+        "feature_1": "HD Video Call",
+        "feature_1_sub": "Clear video and audio quality for an optimal meeting experience",
+        "feature_2": "Meeting Scheduler",
+        "feature_2_sub": "Easily plan meetings and get reminder notifications",
+        "feature_3": "Text Chat",
+        "feature_3_sub": "Send text messages during meetings for more effective communication",
+        "feature_4": "Group Meetings",
+        "feature_4_sub": "Easily meet with multiple participants from anywhere",
+        "feature_5": "Privacy & Security",
+        "feature_5_sub": "End-to-end encryption to keep your meetings private and secure",
+        "feature_6": "Screen Sharing",
+        "feature_6_sub": "Present your ideas with an easy-to-use screen sharing feature",
+        "ready_title": "Ready to Start a Meeting?",
+        "ready_sub": "Sign up now and start using all of Sinih's features"
+    },
+    "login": {
+        "first": "Enter your email and password to access your account",
+        "with_google": "Login with Google",
+        "with_github": "Login with GitHub",
+        "or": "or",
+        "input_email_placeholder": "name@gmail.com",
+        "input_email_required": "Email is required!",
+        "input_email_valid": "Invalid email format!",
+        "input_password_required": "Password is required!",
+        "bottom_submit": "Submit",
+        "forget_password": "Forgot password?",
+        "dont_have_account": "Don't have an account",
+        "bottom_create_account": "Sign up now",
+        "invalid_login": "Failed to Login"
+    },
+    "supabase": {
+        "auth": {
+            "invalid_credentials": "Incorrect email or password",
+            "user_not_found": "User not found",
+            "user_already_exists": "User is already registered",
+            "email_address_invalid": "Invalid email format"
+        }
+    }
+}

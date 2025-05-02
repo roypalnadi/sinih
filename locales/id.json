@@ -1,0 +1,53 @@
+{
+    "navbar": {
+        "menu_1": "Gabung Meeting",
+        "menu_2": "Fitur",
+        "button_1": "Daftar"
+    },
+    "landing_page": {
+        "first": "Meeting Online yang <span>Mudah</span> dan <span>Ringan</span>",
+        "first_sub": "Sinih adalah platform meeting berbasis web yang ringan. Tanpa perlu install aplikasi, langsung meeting dari browser Anda.",
+        "button_1": "Gabung",
+        "button_2": "Mulai Meeting Baru",
+        "button_3": "Daftar Gratis",
+        "feature_title": "Fitur Utama",
+        "feature_sub": "Semua yang Anda butuhkan untuk meeting online yang efektif",
+        "feature_1": "Video Call HD",
+        "feature_1_sub": "Kualitas video dan audio yang jernih untuk pengalaman meeting yang optimal",
+        "feature_2": "Jadwal Meeting",
+        "feature_2_sub": "Rencanakan meeting dengan mudah dan dapatkan notifikasi pengingat",
+        "feature_3": "Chat Teks",
+        "feature_3_sub": "Kirim pesan teks selama meeting untuk komunikasi yang lebih efektif",
+        "feature_4": "Meeting Bersama",
+        "feature_4_sub": "Meeting dengan berbagai peserta dari mana saja dengan mudah",
+        "feature_5": "Privasi & Keamanan",
+        "feature_5_sub": "Enkripsi end-to-end untuk menjaga keamanan dan privasi meeting Anda",
+        "feature_6": "Berbagi Layar",
+        "feature_6_sub": "Presentasikan ide Anda dengan fitur berbagi layar yang mudah digunakan",
+        "ready_title": "Siap Memulai Meeting?",
+        "ready_sub": "Daftar sekarang dan mulai menggunakan semua fitur Sinih"
+    },
+    "login": {
+        "first": "Masukkan email dan password untuk mengakses akun Anda",
+        "with_google": "Login Dengan Google",
+        "with_github": "Login Dengan Github",
+        "or": "atau",
+        "input_email_placeholder": "nama@gmail.com",
+        "input_email_required": "Email tidak boleh kosong!",
+        "input_email_valid": "Format email tidak valid!",
+        "input_password_required": "Password tidak boleh kosong!",
+        "bottom_submit": "Kirim",
+        "forget_password": "Lupa password?",
+        "dont_have_account": "Belum memiliki akun",
+        "bottom_create_account": "Daftar sekarang",
+        "invalid_login": "Gagal Melakukan Login"
+    },
+    "supabase": {
+        "auth": {
+            "invalid_credentials": "Email atau password salah",
+            "user_not_found": "User tidak ditemukan",
+            "user_already_exists": "User sudah pernah didaftarkan",
+            "email_address_invalid": "Format email salah"
+        }
+    }
+}
