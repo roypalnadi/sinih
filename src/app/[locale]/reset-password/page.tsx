@@ -25,15 +25,15 @@ export default function ResetPassword() {
             .then(({ error }) => {
                 if (error != null) {
                     showNotification({
-                        description: error.message,
-                        message: 'Error',
+                        description: t(`supabase.auth.${error.code}`),
+                        message: t('reset_password.notification_error'),
                         type: 'error',
                     });
                     return;
                 }
                 showNotification({
-                    description: 'Berhasil mengubah password, mohon coba login kembali',
-                    message: 'Reset password berhasil',
+                    description: t('reset_password.notification_success_description'),
+                    message: t('reset_password.notification_success'),
                     type: 'success',
                 });
 
@@ -54,9 +54,9 @@ export default function ResetPassword() {
                 <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
                     <div className="flex flex-col gap-5">
                         <div className="flex flex-col text-center">
-                            <span className="text-xl font-bold">Reset Password</span>
+                            <span className="text-xl font-bold">{t('reset_password.title')}</span>
                             <span className="text-gray-500 text-center">
-                                Buat password baru untuk akun Anda
+                                {t('reset_password.title')}
                             </span>
                         </div>
                         <Form
@@ -72,11 +72,11 @@ export default function ResetPassword() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: t('login.input_password_required'),
+                                        message: t('reset_password.input_password_required'),
                                     },
                                 ]}
                             >
-                                <Input.Password placeholder="Input password" />
+                                <Input.Password />
                             </Form.Item>
 
                             <Form.Item>
@@ -87,7 +87,7 @@ export default function ResetPassword() {
                                     htmlType="submit"
                                     loading={loading}
                                 >
-                                    Simpan
+                                    {t('reset_password.send')}
                                 </Button>
                             </Form.Item>
                         </Form>
@@ -97,7 +97,7 @@ export default function ResetPassword() {
                         <div className="w-full text-center">
                             <span className="text-gray-500 text-xs">
                                 <Link href={'/forgot-password'} className="text-blue-500">
-                                    Kembali ke lupa password
+                                    {t('reset_password.back')}
                                 </Link>
                             </span>
                         </div>

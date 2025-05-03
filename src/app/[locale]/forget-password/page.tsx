@@ -26,15 +26,15 @@ export default function ForgetPassword() {
             .then(({ error }) => {
                 if (error != null) {
                     showNotification({
-                        description: error.message,
-                        message: 'Error',
+                        description: t(`supabase.auth.${error.code}`),
+                        message: t('forgot_password.notification_error'),
                         type: 'error',
                     });
                     return;
                 }
                 showNotification({
-                    description: 'Silahkan buka email anda untuk instruksi reset password',
-                    message: 'Permintaan dikirim',
+                    description: t('forgot_password.notification_success_description'),
+                    message: t('forgot_password.notification_success'),
                     type: 'success',
                 });
                 return;
@@ -53,9 +53,9 @@ export default function ForgetPassword() {
                 <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
                     <div className="flex flex-col gap-5">
                         <div className="flex flex-col text-center">
-                            <span className="text-xl font-bold">Lupa Password</span>
+                            <span className="text-xl font-bold">{t('forgot_password.title')}</span>
                             <span className="text-gray-500 text-center">
-                                Masukkan email Anda untuk menerima instruksi reset password
+                                {t('forgot_password.sub_title')}
                             </span>
                         </div>
                         <Form
@@ -71,15 +71,15 @@ export default function ForgetPassword() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: t('login.input_email_required'),
+                                        message: t('forgot_password.input_email_required'),
                                     },
                                     {
                                         type: 'email',
-                                        message: t('login.input_email_valid'),
+                                        message: t('forgot_password.input_email_valid'),
                                     },
                                 ]}
                             >
-                                <Input placeholder={t('login.input_email_placeholder')} />
+                                <Input placeholder={t('forgot_password.input_email_placeholder')} />
                             </Form.Item>
 
                             <Form.Item>
@@ -90,7 +90,7 @@ export default function ForgetPassword() {
                                     htmlType="submit"
                                     loading={loading}
                                 >
-                                    Kirim intruksi reset
+                                    {t('forgot_password.send')}
                                 </Button>
                             </Form.Item>
                         </Form>
@@ -99,9 +99,9 @@ export default function ForgetPassword() {
                         </div>
                         <div className="w-full text-center">
                             <span className="text-gray-500 text-xs">
-                                Ingat password Anda?{' '}
+                                {t('forgot_password.back_1')}{' '}
                                 <Link href={'/login'} className="text-blue-500">
-                                    Kembali ke login
+                                    {t('forgot_password.back_2')}
                                 </Link>
                             </span>
                         </div>

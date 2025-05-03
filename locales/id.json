@@ -42,6 +42,48 @@
         "bottom_create_account": "Daftar sekarang",
         "invalid_login": "Gagal Melakukan Login"
     },
+    "forgot_password": {
+        "notification_error": "Terjadi Kesalahan",
+        "notification_success": "Permintaan dikirim",
+        "notification_success_description": "Silahkan buka email anda untuk instruksi reset password",
+        "title": "Lupa Password",
+        "sub_title": "Masukkan email Anda untuk menerima instruksi reset password",
+        "input_email_placeholder": "nama@gmail.com",
+        "input_email_required": "Email tidak boleh kosong!",
+        "input_email_valid": "Format email tidak valid!",
+        "send": "Kirim intruksi reset",
+        "back_1": "Ingat password Anda?",
+        "back_2": "Kembali ke login"
+    },
+    "reset_password": {
+        "notification_error": "Terjadi Kesalahan",
+        "notification_success": "Permintaan dikirim",
+        "notification_success_description": "Silahkan buka email anda untuk instruksi reset password",
+        "title": "Reset Password",
+        "sub_title": "Buat password baru untuk akun Anda",
+        "input_password_required": "Password tidak boleh kosong!",
+        "send": "Simpan",
+        "back": "Kembali ke lupa password"
+    },
+    "signup": {
+        "invalid_singup": "Gagal Melakukan Pendaftaran",
+        "success": "Registrasi berhasil",
+        "success_description": "Akun anda berhasil dibuat",
+        "title": "Daftar",
+        "sub_title": "Buat akun untuk mulai menggunakan Sinih",
+        "with_google": "Daftar Dengan Google",
+        "with_github": "Daftar Dengan Github",
+        "or": "atau",
+        "input_email_placeholder": "nama@gmail.com",
+        "input_email_required": "Email tidak boleh kosong!",
+        "input_email_valid": "Format email tidak valid!",
+        "input_password_required": "Password tidak boleh kosong!",
+        "input_confirmed_password_required": "Konfirmasi Password tidak boleh kosong!",
+        "input_confirmed_password_matched": "Password tidak sama satu sama lain",
+        "send": "Daftar",
+        "back_1": "Sudah memiliki akun?",
+        "back_2": "Login"
+    },
     "supabase": {
         "auth": {
             "invalid_credentials": "Email atau password salah",

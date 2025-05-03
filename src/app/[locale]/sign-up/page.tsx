@@ -39,7 +39,7 @@ export default function SignUp() {
             .then(({ error }) => {
                 if (error != null) {
                     showNotification({
-                        message: t('login.invalid_login'),
+                        message: t('signup.invalid_singup'),
                         description: t(`supabase.auth.${error.code}`),
                         type: 'error',
                     });
@@ -47,8 +47,8 @@ export default function SignUp() {
                 }
                 router.replace('login');
                 showNotification({
-                    message: 'Registrasi berhasil',
-                    description: 'Akun anda berhasil dibuat',
+                    message: t('signup.success'),
+                    description: t('signup.success_description'),
                     type: 'success',
                 });
             })
@@ -69,9 +69,9 @@ export default function SignUp() {
                 <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
                     <div className="flex flex-col gap-5">
                         <div className="flex flex-col text-center">
-                            <span className="text-xl font-bold">Daftar</span>
+                            <span className="text-xl font-bold">{t('signup.title')}</span>
                             <span className="text-gray-500 text-center">
-                                Buat akun untuk mulai menggunakan Sinih
+                                {t('signup.sub_title')}
                             </span>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -81,7 +81,9 @@ export default function SignUp() {
                                 className="!py-[15px] !px-[16px]"
                                 onClick={loginWithGoogle}
                             >
-                                <span className="text-sm font-medium">Daftar dengan Google</span>
+                                <span className="text-sm font-medium">
+                                    {t('signup.with_google')}
+                                </span>
                             </Button>
                             <Button
                                 icon={<GithubIcon />}
@@ -89,13 +91,15 @@ export default function SignUp() {
                                 className="!py-[15px] !px-[16px]"
                                 onClick={loginWithGithub}
                             >
-                                <span className="text-sm font-medium">Daftar dengan Github</span>
+                                <span className="text-sm font-medium">
+                                    {t('signup.with_github')}
+                                </span>
                             </Button>
                         </div>
 
                         <div className="flex items-center">
                             <div className="border-1 w-full border-gray-200 h-[1px]"></div>
-                            <span className="text-gray-500 text-xs mx-3">{t('login.or')}</span>
+                            <span className="text-gray-500 text-xs mx-3">{t('signup.or')}</span>
                             <div className="border-1 w-full border-gray-200 h-[1px]"></div>
                         </div>
 
@@ -112,15 +116,15 @@ export default function SignUp() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Email wajib diisi',
+                                        message: t('signup.input_email_required'),
                                     },
                                     {
                                         type: 'email',
-                                        message: 'Email tidak valid',
+                                        message: t('signup.input_email_valid'),
                                     },
                                 ]}
                             >
-                                <Input placeholder="Masukan email" />
+                                <Input placeholder={t('signup.input_email_placeholder')} />
                             </Form.Item>
                             <Form.Item
                                 label="Password"
@@ -129,31 +133,37 @@ export default function SignUp() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Input password',
+                                        message: t('signup.input_password_required'),
                                     },
                                 ]}
                             >
-                                <Input.Password placeholder="Input password" />
+                                <Input.Password />
                             </Form.Item>
                             <Form.Item
                                 name="confirm"
                                 label="Konfirmasi Password"
+                                className="text-sm font-medium"
                                 dependencies={['password']}
                                 rules={[
-                                    { required: true, message: 'Please confirm your password!' },
+                                    {
+                                        required: true,
+                                        message: t('signup.input_confirmed_password_required'),
+                                    },
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
                                             if (!value || getFieldValue('password') === value) {
                                                 return Promise.resolve();
                                             }
                                             return Promise.reject(
-                                                new Error('The two passwords do not match!')
+                                                new Error(
+                                                    t('signup.input_confirmed_password_matched')
+                                                )
                                             );
                                         },
                                     }),
                                 ]}
                             >
-                                <Input.Password placeholder="Input konfirmasi password" />
+                                <Input.Password />
                             </Form.Item>
 
                             <Form.Item>
@@ -164,7 +174,7 @@ export default function SignUp() {
                                     htmlType="submit"
                                     loading={loading}
                                 >
-                                    Daftar
+                                    {t('signup.send')}
                                 </Button>
                             </Form.Item>
                         </Form>
@@ -173,9 +183,9 @@ export default function SignUp() {
                         </div>
                         <div className="w-full text-center">
                             <span className="text-gray-500 text-xs">
-                                Sudah memiliki akun?{' '}
+                                {t('signup.back_1')}{' '}
                                 <Link href={'/login'} className="text-blue-500">
-                                    Login
+                                    {t('signup.back_2')}
                                 </Link>
                             </span>
                         </div>

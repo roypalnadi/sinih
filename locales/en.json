@@ -42,6 +42,48 @@
         "bottom_create_account": "Sign up now",
         "invalid_login": "Failed to Login"
     },
+    "forgot_password": {
+        "notification_error": "An Error Occurred",
+        "notification_success": "Request Sent",
+        "notification_success_description": "Please check your email for password reset instructions",
+        "title": "Forgot Password",
+        "sub_title": "Enter your email to receive password reset instructions",
+        "input_email_placeholder": "name@gmail.com",
+        "input_email_required": "Email cannot be empty!",
+        "input_email_valid": "Invalid email format!",
+        "send": "Send reset instructions",
+        "back_1": "Remember your password?",
+        "back_2": "Back to login"
+    },
+    "reset_password": {
+        "notification_error": "An Error Occurred",
+        "notification_success": "Request Sent",
+        "notification_success_description": "Please check your email for password reset instructions",
+        "title": "Reset Password",
+        "sub_title": "Create a new password for your account",
+        "input_password_required": "Password cannot be empty!",
+        "send": "Save",
+        "back": "Back to forgot password"
+    },
+    "signup": {
+        "invalid_singup": "Registration Failed",
+        "success": "Registration Successful",
+        "success_description": "Your account has been created successfully",
+        "title": "Sign Up",
+        "sub_title": "Create an account to start using Sinih",
+        "with_google": "Sign Up with Google",
+        "with_github": "Sign Up with Github",
+        "or": "or",
+        "input_email_placeholder": "name@gmail.com",
+        "input_email_required": "Email cannot be empty!",
+        "input_email_valid": "Invalid email format!",
+        "input_password_required": "Password cannot be empty!",
+        "input_confirmed_password_required": "Password confirmation cannot be empty!",
+        "input_confirmed_password_matched": "Passwords do not match",
+        "send": "Sign Up",
+        "back_1": "Already have an account?",
+        "back_2": "Login"
+    },
     "supabase": {
         "auth": {
             "invalid_credentials": "Incorrect email or password",
