@@ -3,11 +3,18 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabaseClient } from './supabaseClient';
-import { useRouter } from 'next/navigation';
 
-const AuthContext = createContext<Session | null>(null);
+interface AuthContextType {
+    session: Session | null;
+    sessionReady: boolean;
+}
 
-export const useAuth = (): Session | null => {
+const AuthContext = createContext<AuthContextType>({
+    session: null,
+    sessionReady: false,
+});
+
+export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     return context;
 };
@@ -18,15 +25,14 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [session, setSession] = useState<Session | null>(null);
-    const route = useRouter();
+    const [sessionReady, setSessionReady] = useState<boolean>(false);
 
     useEffect(() => {
+        setSessionReady(false);
         // Ambil session sekali saat mount
-        supabaseClient.auth.getSession().then(({ data, error }) => {
-            if (error || !data.session?.access_token) {
-                return route.replace('login');
-            }
+        supabaseClient.auth.getSession().then(({ data }) => {
             setSession(data.session ?? null);
+            setSessionReady(true);
         });
 
         // Pantau perubahan auth
@@ -37,7 +43,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         return () => subscription.unsubscribe(); // Bersihkan listener saat unmount
-    }, [route]);
+    }, []);
 
-    return <AuthContext.Provider value={session}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ session, sessionReady }}>{children}</AuthContext.Provider>
+    );
 };

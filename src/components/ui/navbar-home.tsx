@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 const NavbarHome = () => {
     const { showNotification } = useNotification();
     const route = useRouter();
-    const session = useAuth();
+    const { session } = useAuth();
 
     const items: MenuProps['items'] = [
         {

@@ -2,15 +2,16 @@
 
 import Navbar from '@/components/ui/navbar';
 import GoogleIcon from '@/components/icons/GoogleIcon';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Spin } from 'antd';
 import GithubIcon from '@/components/icons/GithubIcon';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { LoginOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useNotification } from '@/lib/ant-design/notification-context';
+import { useAuth } from '@/lib/supabase/authContext';
 
 export default function Login() {
     const t = useTranslations();
@@ -18,22 +19,38 @@ export default function Login() {
     const { showNotification } = useNotification();
     const router = useRouter();
     const locale = useLocale();
+    const { session, sessionReady } = useAuth();
 
-    const options = {
-        /** A URL to send the user to after they are confirmed. */
-        redirectTo: `${window.location.origin}/${locale}/home`,
-    };
+    useEffect(() => {
+        if (sessionReady && session?.user) {
+            router.replace('/dashboard');
+        }
+    }, [session, router, sessionReady]);
 
     const loginWithGoogle = () =>
-        supabaseClient.auth.signInWithOAuth({ provider: 'google', options }).then((response) => {
-            console.log(response.data);
-            console.log(response.error);
-        });
+        supabaseClient.auth
+            .signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}/${locale}/dashboard`,
+                },
+            })
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.error);
+            });
     const loginWithGithub = () =>
-        supabaseClient.auth.signInWithOAuth({ provider: 'github', options }).then((response) => {
-            console.log(response.data);
-            console.log(response.error);
-        });
+        supabaseClient.auth
+            .signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: `${window.location.origin}/${locale}/dashboard`,
+                },
+            })
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.error);
+            });
 
     const loginWithPassword = ({ email, password }: { email: string; password: string }) => {
         setLoading(true);
@@ -56,7 +73,7 @@ export default function Login() {
                     description: 'Selamat datang',
                     type: 'success',
                 });
-                router.replace('home');
+                router.replace('/dashboard');
                 return;
             })
             .finally(() => setLoading(false));
@@ -70,7 +87,7 @@ export default function Login() {
         console.log('Failed:', errorInfo);
     };
     return (
-        <>
+        <Spin spinning={!sessionReady}>
             <Navbar withAction={false} />
             <div className="flex-1 flex justify-center items-center">
                 <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
@@ -181,6 +198,6 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-        </>
+        </Spin>
     );
 }
