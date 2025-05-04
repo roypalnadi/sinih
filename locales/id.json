@@ -90,7 +90,8 @@
             "user_not_found": "User tidak ditemukan",
             "user_already_exists": "User sudah pernah didaftarkan",
             "weak_password": "Password terlalu lemah",
-            "email_address_invalid": "Format email salah"
+            "email_address_invalid": "Format email salah",
+            "email_not_confirmed": "Email belum di konfirmasi, silahkan cek email anda terlebih dahulu"
         }
     }
 }

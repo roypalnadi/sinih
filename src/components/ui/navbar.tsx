@@ -6,7 +6,15 @@ import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-const Navbar = ({ withAction = true }: { withAction?: boolean }) => {
+const Navbar = ({
+    withAction = true,
+    onClick1,
+    onClick2,
+}: {
+    withAction?: boolean;
+    onClick1?: () => void;
+    onClick2?: () => void;
+}) => {
     const [loading, setLoading] = useState(false);
     const locale = useLocale();
     const t = useTranslations();
@@ -35,10 +43,10 @@ const Navbar = ({ withAction = true }: { withAction?: boolean }) => {
             {/* Buttons */}
             <div className={`flex items-center gap-6 ${withAction ? 'show' : 'hidden'}`}>
                 <div className="hidden sm:flex items-center gap-5 text-sm font-bold text-gray-800">
-                    <a href="#" className="hover:text-primary-600">
+                    <a href="#" onClick={onClick1} className="hover:text-primary-600">
                         {t('navbar.menu_1')}
                     </a>
-                    <a href="#" className="hover:text-primary-600">
+                    <a href="#" onClick={onClick2} className="hover:text-primary-600">
                         {t('navbar.menu_2')}
                     </a>
                 </div>

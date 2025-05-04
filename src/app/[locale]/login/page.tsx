@@ -8,7 +8,7 @@ import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { LoginOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useNotification } from '@/lib/ant-design/notification-context';
 
@@ -17,14 +17,20 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const { showNotification } = useNotification();
     const router = useRouter();
+    const locale = useLocale();
+
+    const options = {
+        /** A URL to send the user to after they are confirmed. */
+        redirectTo: `${window.location.origin}/${locale}/home`,
+    };
 
     const loginWithGoogle = () =>
-        supabaseClient.auth.signInWithOAuth({ provider: 'google' }).then((response) => {
+        supabaseClient.auth.signInWithOAuth({ provider: 'google', options }).then((response) => {
             console.log(response.data);
             console.log(response.error);
         });
     const loginWithGithub = () =>
-        supabaseClient.auth.signInWithOAuth({ provider: 'github' }).then((response) => {
+        supabaseClient.auth.signInWithOAuth({ provider: 'github', options }).then((response) => {
             console.log(response.data);
             console.log(response.error);
         });
@@ -43,7 +49,15 @@ export default function Login() {
                         description: t(`supabase.auth.${error.code}`),
                         type: 'error',
                     });
+                    return;
                 }
+                showNotification({
+                    message: 'Berhasil',
+                    description: 'Selamat datang',
+                    type: 'success',
+                });
+                router.replace('home');
+                return;
             })
             .finally(() => setLoading(false));
     };

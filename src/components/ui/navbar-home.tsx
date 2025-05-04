@@ -1,0 +1,91 @@
+'use client';
+
+import { useNotification } from '@/lib/ant-design/notification-context';
+import { useAuth } from '@/lib/supabase/authContext';
+import { supabaseClient } from '@/lib/supabase/supabaseClient';
+import { Avatar, Dropdown, MenuProps } from 'antd';
+import { Video } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+const NavbarHome = () => {
+    const { showNotification } = useNotification();
+    const route = useRouter();
+    const session = useAuth();
+
+    const items: MenuProps['items'] = [
+        {
+            key: 'user-info',
+            type: 'group',
+            label: (
+                <div>
+                    <div className="font-semibold">{session?.user?.user_metadata?.full_name}</div>
+                    <div className="text-gray-500 text-sm">{session?.user?.email}</div>
+                </div>
+            ),
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'dashboard',
+            label: 'Dashboard',
+        },
+        {
+            key: 'meeting',
+            label: 'Jadwalkan Meeting',
+        },
+        {
+            key: 'profile',
+            label: 'Profil',
+        },
+        {
+            key: 'settings',
+            label: 'Pengaturan',
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'logout',
+            label: <span className="text-red-500">Keluar</span>,
+            danger: true,
+            onClick: async () => {
+                const { error } = await supabaseClient.auth.signOut();
+                if (error) {
+                    showNotification({
+                        message: 'Error',
+                        description: error.message ?? '',
+                        type: 'error',
+                    });
+
+                    return;
+                }
+                showNotification({
+                    message: 'Berhasil logout',
+                    description: 'sukses',
+                    type: 'success',
+                });
+                route.replace('/');
+            },
+        },
+    ];
+
+    return (
+        <nav className="flex items-center justify-between px-6 py-4 shadow-sm bg-white sticky top-0 z-50">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+                <Video className="text-primary-600" />
+                <span className="text-xl font-bold">Sinih</span>
+            </div>
+
+            {/* Buttons */}
+            <div className={`flex items-center gap-6`}>
+                <Dropdown menu={{ items }} trigger={['click']} className="cursor-pointer">
+                    <Avatar src={session?.user.user_metadata.avatar_url} />
+                </Dropdown>
+            </div>
+        </nav>
+    );
+};
+
+export default NavbarHome;
