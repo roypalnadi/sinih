@@ -3,14 +3,30 @@
 import { useNotification } from '@/lib/ant-design/notification-context';
 import { useAuth } from '@/lib/supabase/authContext';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
-import { Avatar, Dropdown, MenuProps } from 'antd';
+import { Avatar, Button, Dropdown, MenuProps } from 'antd';
 import { Video } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const NavbarHome = () => {
     const { showNotification } = useNotification();
     const route = useRouter();
     const { session } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const locale = useLocale();
+    const pathname = usePathname();
+
+    const switchLocale = () => {
+        setLoading(true);
+        const parts = pathname.split('/');
+
+        const newLocale = locale === 'id' ? 'en' : 'id'; // Tentukan bahasa baru
+
+        parts[1] = newLocale; // Ganti bagian bahasa di URL
+        route.push(parts.join('/'), { scroll: false }); // Lakukan redirect
+        route.refresh();
+    };
 
     const items: MenuProps['items'] = [
         {
@@ -80,6 +96,14 @@ const NavbarHome = () => {
 
             {/* Buttons */}
             <div className={`flex items-center gap-6`}>
+                <Button
+                    shape="circle"
+                    className="!font-bold"
+                    disabled={loading}
+                    onClick={switchLocale}
+                >
+                    {locale.toUpperCase()}
+                </Button>
                 <Dropdown menu={{ items }} trigger={['click']} className="cursor-pointer">
                     <Avatar src={session?.user.user_metadata.avatar_url} />
                 </Dropdown>
