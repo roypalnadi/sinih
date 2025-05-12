@@ -10,12 +10,14 @@ import {
 } from '@ant-design/icons';
 import { Button, Input, Segmented } from 'antd';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 type segment = 'first' | 'second';
 
 export default function Dashboard(): React.ReactNode {
     const t = useTranslations();
+    const router = useRouter();
     const akandatang: React.ReactNode[] = [
         <Card
             key="1"
@@ -53,7 +55,11 @@ export default function Dashboard(): React.ReactNode {
                         <Button type="primary" size="large" icon={<PlusOutlined />}>
                             {t('dashboard.create_meeting')}
                         </Button>
-                        <Button size="large" icon={<VideoCameraOutlined />}>
+                        <Button
+                            size="large"
+                            icon={<VideoCameraOutlined />}
+                            onClick={() => router.push('/dashboard/join')}
+                        >
                             {t('dashboard.join')}
                         </Button>
                     </div>

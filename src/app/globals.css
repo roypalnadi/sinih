@@ -38,3 +38,10 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.str-video__notification__message {
+  color: white;
+}
+.str-video__participant-details__name {
+  color: white;
+}
