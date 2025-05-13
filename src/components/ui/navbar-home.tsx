@@ -17,6 +17,8 @@ const NavbarHome = () => {
     const locale = useLocale();
     const pathname = usePathname();
 
+    console.log(session?.user.user_metadata.avatar_url);
+
     const switchLocale = () => {
         setLoading(true);
         const parts = pathname.split('/');

@@ -40,12 +40,16 @@ export default function RootLayout({
                 image: session?.user.user_metadata.avatar_url,
             };
 
-            const client = StreamVideoClient.getOrCreateInstance({
-                apiKey: 'g72ybm8xypfz',
-                user,
-                token: await getToken(user.id),
-            });
-            setClient(client);
+            try {
+                const token = await getToken(user.id);
+                const client = StreamVideoClient.getOrCreateInstance({
+                    apiKey: 'g72ybm8xypfz',
+                    user,
+                    token: token,
+                });
+                setClient(client);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (e) {}
         };
 
         getClient();
