@@ -13,7 +13,7 @@ import { Button, Input, Segmented, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 type segment = 'upcomming' | 'latest';
 
@@ -21,42 +21,75 @@ export default function Dashboard(): React.ReactNode {
     const t = useTranslations();
     const router = useRouter();
     const [meets, setMeets] = useState<React.ReactNode[] | null>([]);
+    const [seg, setSeg] = useState<segment>('upcomming');
+    const [countToday, setCountToday] = useState<number>(0);
+    const [countWeek, setCountWeek] = useState<number>(0);
 
-    useEffect(() => {
-        getData('upcomming');
+    const getData = useCallback(
+        (search?: string) => {
+            setMeets(null);
+            const data = supabaseClient
+                .from('meeting')
+                .select()
+                .order('date', { ascending: false })
+                .order('start_time', { ascending: false })
+                .order('end_time', { ascending: true });
+
+            if (seg == 'upcomming') data.gte('date', dayjs().format('YYYY-MM-DD'));
+
+            if (seg == 'latest') data.lt('date', dayjs().format('YYYY-MM-DD'));
+
+            if (search) data.ilike('title', '%' + search + '%');
+
+            data.then(({ data }) => {
+                const cards = data?.map((m) => {
+                    return convertToCard(m);
+                });
+                setMeets(cards ?? []);
+            });
+        },
+        [seg]
+    );
+
+    const getCount = useCallback(() => {
+        supabaseClient
+            .from('meeting')
+            .select('*', { count: 'exact', head: true })
+            .eq('date', dayjs().format('YYYY-MM-DD'))
+            .then(({ count }) => {
+                setCountToday(count ?? 0);
+            });
+        supabaseClient
+            .from('meeting')
+            .select('*', { count: 'exact', head: true })
+            .gte('date', dayjs().format('YYYY-MM-DD'))
+            .lte('date', dayjs().endOf('week').format('YYYY-MM-DD'))
+            .then(({ count }) => {
+                setCountWeek(count ?? 0);
+            });
     }, []);
 
-    const getData = (segment: segment) => {
-        setMeets(null);
-        let key = 1;
-        const data = supabaseClient.from('meeting').select();
+    useEffect(() => {
+        getData();
+        getCount();
+    }, [getData, getCount]);
 
-        if (segment == 'upcomming') {
-            data.gte('date', dayjs().format('YYYY-MM-DD'));
-        }
-        if (segment == 'latest') {
-            data.lt('date', dayjs().format('YYYY-MM-DD'));
-        }
-
-        data.then(({ data }) => {
-            const cards = data?.map((m) => {
-                const date = dayjs(m['date']);
-                return (
-                    <Card
-                        key={key++}
-                        meetId={m['meet_id'] ?? ''}
-                        title={m['title'] ?? ''}
-                        description={m['description'] ?? ''}
-                        date={date.isValid() ? date.toDate() : null}
-                        tag="Sukses"
-                        time={(m['start_time'] ?? '') + ' - ' + (m['end_time'] ?? '')}
-                        tagColor="error"
-                        totalParticipant={m['participant']}
-                    />
-                );
-            });
-            setMeets(cards ?? []);
-        });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const convertToCard = (m: any) => {
+        const date = dayjs(m['date']);
+        return (
+            <Card
+                key={m['id']}
+                meetId={m['meet_id'] ?? ''}
+                title={m['title'] ?? ''}
+                description={m['description'] ?? ''}
+                date={date.isValid() ? date.toDate() : null}
+                tag="Sukses"
+                time={(m['start_time'] ?? '') + ' - ' + (m['end_time'] ?? '')}
+                tagColor="error"
+                totalParticipant={m['participant']}
+            />
+        );
     };
     return (
         <>
@@ -90,7 +123,7 @@ export default function Dashboard(): React.ReactNode {
                             <span className="text-sm font-bold">{t('dashboard.current_day')}</span>
                             <CalendarOutlined size={1} />
                         </div>
-                        <h2 className="text-2xl font-bold text-start">2</h2>
+                        <h2 className="text-2xl font-bold text-start">{countToday}</h2>
                         <span className="text-xs text-gray-500">
                             {t('dashboard.current_day_description')}
                         </span>
@@ -100,7 +133,7 @@ export default function Dashboard(): React.ReactNode {
                             <span className="text-sm font-bold">{t('dashboard.current_week')}</span>
                             <CalendarOutlined size={1} />
                         </div>
-                        <h2 className="text-2xl font-bold text-start">2</h2>
+                        <h2 className="text-2xl font-bold text-start">{countWeek}</h2>
                         <span className="text-xs text-gray-500">{t('dashboard.current_week')}</span>
                     </div>
                     <div className="flex-1 border-1 rounded-lg p-5 border-gray-300">
@@ -125,6 +158,7 @@ export default function Dashboard(): React.ReactNode {
                             <Input
                                 placeholder={t('dashboard.search_meeting')}
                                 prefix={<SearchOutlined />}
+                                onChange={(e) => getData(e.target.value)}
                             />
                         </div>
                     </div>
@@ -141,7 +175,8 @@ export default function Dashboard(): React.ReactNode {
                                 },
                             ]}
                             onChange={(value) => {
-                                getData(value);
+                                setSeg(value);
+                                // getData();
                             }}
                         />
                     </div>
