@@ -1,18 +1,26 @@
 'use client';
 
-import { DeviceSettings, useCall, VideoPreview } from '@stream-io/video-react-sdk';
+import { useCall, VideoPreview } from '@stream-io/video-react-sdk';
 import { useEffect, useState } from 'react';
-import { CameraIcon, MicIcon, SettingsIcon } from 'lucide-react';
+import { CameraIcon, MicIcon } from 'lucide-react';
 import { Avatar, Button, Switch } from 'antd';
 import { CheckOutlined, CloseOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import SetupMeeting from '@/lib/meeting/setup-meeting';
 import { useAuth } from '@/lib/supabase/authContext';
 import { Session } from '@supabase/supabase-js';
 import { useNotification } from '@/lib/ant-design/notification-context';
+import { useTranslations } from 'next-intl';
 
-function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
+function MeetingSetup({
+    onSetupComplete,
+    createdBy,
+}: {
+    onSetupComplete: () => void;
+    createdBy: string;
+}) {
     const call = useCall();
     const notif = useNotification();
+    const t = useTranslations();
     const [loading, setLoading] = useState(false);
 
     const { handleMic, handleVideo, isCameraLoading, isMicLoading } = SetupMeeting(call, notif);
@@ -28,15 +36,20 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
     const handleJoin = async () => {
         setLoading(true);
         try {
-            await call?.join({
+            const options = {
                 create: false,
-            });
+            };
+
+            if (createdBy == session?.user.id) {
+                options.create = true;
+            }
+            await call?.join(options);
             onSetupComplete();
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error: unknown) {
             notif.showNotification({
-                message: 'Terjadi Masalah Pada Meeting',
-                description: 'Meeting belum dimulai',
+                message: t('meeting_setup.notif_error_title'),
+                description: t('meeting_setup.notif_error_description'),
                 type: 'error',
             });
         } finally {
@@ -51,9 +64,11 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                     {/* VIDEO PREVIEW CONTAINER */}
                     <div className="flex-2/3 rounded-lg border border-gray-200 shadow-sm p-7 w-sm h-auto">
                         <div>
-                            <h1 className="text-xl font-semibold mb-1">Camera Preview</h1>
+                            <h1 className="text-xl font-semibold mb-1">
+                                {t('meeting_setup.title')}
+                            </h1>
                             <p className="text-sm text-muted-foreground">
-                                Make sure you look good!
+                                {t('meeting_setup.sub')}
                             </p>
                         </div>
                         {/* VIDEO PREVIEW */}
@@ -72,7 +87,9 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                     <div className="flex-1/3 rounded-lg border border-gray-200 shadow-sm p-7 w-sm h-auto">
                         <div className="flex flex-col gap-5">
                             <div className="flex flex-col text-start">
-                                <span className="text-xl font-bold">Meeting Details</span>
+                                <span className="text-xl font-bold">
+                                    {t('meeting_setup.detail')}
+                                </span>
                                 <span className="text-gray-500 text-start">{call?.id}</span>
                             </div>
 
@@ -84,7 +101,9 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                                             <CameraIcon className="h-5 w-5 text-primary" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold">Camera</p>
+                                            <p className="text-sm font-bold">
+                                                {t('meeting_setup.camera')}
+                                            </p>
                                         </div>
                                     </div>
                                     <Switch
@@ -103,7 +122,9 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                                             <MicIcon className="h-5 w-5 text-primary" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold">Microphone</p>
+                                            <p className="text-sm font-bold">
+                                                {t('meeting_setup.microphone')}
+                                            </p>
                                         </div>
                                     </div>
                                     <Switch
@@ -116,7 +137,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                                 </div>
 
                                 {/* DEVICE SETTINGS */}
-                                <div className="flex items-center justify-between">
+                                {/* <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                                             <SettingsIcon className="h-5 w-5 text-primary" />
@@ -129,7 +150,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                                         </div>
                                     </div>
                                     <DeviceSettings />
-                                </div>
+                                </div> */}
                             </div>
                             <div className="flex flex-col">
                                 <Button
@@ -140,7 +161,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                                     onClick={handleJoin}
                                     loading={loading}
                                 >
-                                    Gabung meeting
+                                    {t('meeting_setup.join')}
                                 </Button>
                             </div>
                         </div>
@@ -154,7 +175,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
 export const NoVideo = ({ session }: { session: Session | null }) => {
     return (
         <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-white text-lg font-semibold">
-            <Avatar size={300} src={session?.user.user_metadata.avatar_url} />
+            <Avatar size={250} src={session?.user.user_metadata.avatar_url} />
         </div>
     );
 };

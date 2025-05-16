@@ -21,7 +21,7 @@ export default function Dashboard(): React.ReactNode {
     const t = useTranslations();
     const router = useRouter();
     const [meets, setMeets] = useState<React.ReactNode[] | null>([]);
-    const [seg, setSeg] = useState<segment>('upcomming');
+    const [seg, setSeg] = useState<segment>('latest');
     const [countToday, setCountToday] = useState<number>(0);
     const [countWeek, setCountWeek] = useState<number>(0);
 
@@ -30,14 +30,16 @@ export default function Dashboard(): React.ReactNode {
             setMeets(null);
             const data = supabaseClient
                 .from('meeting')
-                .select()
+                .select(
+                    'date, id, meet_id, title, description, title, start_time, end_time, total_participant, status'
+                )
                 .order('date', { ascending: false })
                 .order('start_time', { ascending: false })
                 .order('end_time', { ascending: true });
 
-            if (seg == 'upcomming') data.gte('date', dayjs().format('YYYY-MM-DD'));
+            if (seg == 'upcomming') data.gt('date', dayjs().format('YYYY-MM-DD'));
 
-            if (seg == 'latest') data.lt('date', dayjs().format('YYYY-MM-DD'));
+            if (seg == 'latest') data.lte('date', dayjs().format('YYYY-MM-DD'));
 
             if (search) data.ilike('title', '%' + search + '%');
 
@@ -74,20 +76,28 @@ export default function Dashboard(): React.ReactNode {
         getCount();
     }, [getData, getCount]);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const convertToCard = (m: any) => {
-        const date = dayjs(m['date']);
+    const convertToCard = (m: {
+        date: string;
+        id: string;
+        meet_id: string;
+        title: string;
+        description: string;
+        start_time: string;
+        end_time: string;
+        total_participant: number;
+        status: number;
+    }) => {
+        const date = dayjs(m.date);
         return (
             <Card
-                key={m['id']}
-                meetId={m['meet_id'] ?? ''}
-                title={m['title'] ?? ''}
-                description={m['description'] ?? ''}
+                key={m.id}
+                meetId={m.meet_id ?? ''}
+                title={m.title ?? ''}
+                description={m.description ?? ''}
                 date={date.isValid() ? date.toDate() : null}
-                tag="Sukses"
-                time={(m['start_time'] ?? '') + ' - ' + (m['end_time'] ?? '')}
-                tagColor="error"
-                totalParticipant={m['participant']}
+                status={m.status ?? 0}
+                time={(m.start_time ?? '') + ' - ' + (m.end_time ?? '')}
+                totalParticipant={m.total_participant}
             />
         );
     };
@@ -166,17 +176,16 @@ export default function Dashboard(): React.ReactNode {
                         <Segmented<segment>
                             options={[
                                 {
-                                    label: <div key={1}>{t('dashboard.will_come')}</div>,
-                                    value: 'upcomming',
-                                },
-                                {
                                     label: <div key={2}>{t('dashboard.news')}</div>,
                                     value: 'latest',
+                                },
+                                {
+                                    label: <div key={1}>{t('dashboard.will_come')}</div>,
+                                    value: 'upcomming',
                                 },
                             ]}
                             onChange={(value) => {
                                 setSeg(value);
-                                // getData();
                             }}
                         />
                     </div>

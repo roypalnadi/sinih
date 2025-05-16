@@ -1,7 +1,6 @@
 'use client';
 
 import NavbarHome from '@/components/ui/navbar-home';
-import { useNotification } from '@/lib/ant-design/notification-context';
 import { useAuth } from '@/lib/supabase/authContext';
 import { StreamVideoClient, StreamVideoProvider, User } from '@stream-io/video-react-sdk';
 import { useRouter } from 'next/navigation';
@@ -16,7 +15,6 @@ export default function RootLayout({
     const { session, sessionReady } = useAuth();
     const route = useRouter();
     const [client, setClient] = useState<StreamVideoClient | null>(null);
-    const { showNotification } = useNotification();
 
     const getToken = async (userId: string): Promise<string> => {
         const res = await fetch('/api/getstream-token', {
@@ -33,6 +31,7 @@ export default function RootLayout({
     };
 
     useEffect(() => {
+        if (!session || client) return;
         const getClient = async () => {
             const user: User = {
                 id: session?.user?.id ?? v4(),
@@ -53,7 +52,7 @@ export default function RootLayout({
         };
 
         getClient();
-    }, [session, showNotification]);
+    }, [session, client]);
 
     useEffect(() => {
         if (sessionReady && !session?.user) {

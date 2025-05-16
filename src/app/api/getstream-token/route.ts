@@ -6,8 +6,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { id } = body;
 
-    console.log(id);
-
     const token = jwt.sign({ user_id: id }, SECRET_KEY, { noTimestamp: true });
 
     // Bisa dikirim via JSON:

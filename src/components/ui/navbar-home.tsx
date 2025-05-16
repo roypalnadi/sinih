@@ -17,8 +17,6 @@ const NavbarHome = () => {
     const locale = useLocale();
     const pathname = usePathname();
 
-    console.log(session?.user.user_metadata.avatar_url);
-
     const switchLocale = () => {
         setLoading(true);
         const parts = pathname.split('/');
@@ -47,25 +45,28 @@ const NavbarHome = () => {
         {
             key: 'dashboard',
             label: 'Dashboard',
+            onClick: () => {
+                route.replace('/dashboard');
+            },
         },
-        {
-            key: 'meeting',
-            label: 'Jadwalkan Meeting',
-        },
-        {
-            key: 'profile',
-            label: 'Profil',
-        },
-        {
-            key: 'settings',
-            label: 'Pengaturan',
-        },
+        // {
+        //     key: 'meeting',
+        //     label: 'Jadwalkan Meeting',
+        // },
+        // {
+        //     key: 'profile',
+        //     label: 'Profil',
+        // },
+        // {
+        //     key: 'settings',
+        //     label: 'Pengaturan',
+        // },
         {
             type: 'divider',
         },
         {
             key: 'logout',
-            label: <span className="text-red-500">Keluar</span>,
+            label: 'Keluar',
             danger: true,
             onClick: async () => {
                 const { error } = await supabaseClient.auth.signOut();

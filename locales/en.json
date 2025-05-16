@@ -87,7 +87,10 @@
     "card_dashboard": {
         "participant": "participant",
         "copy": "Copy Link",
-        "join": "Join"
+        "join": "Join",
+        "done": "Done",
+        "absent": "Absent",
+        "cooming": "Cooming"
     },
     "dashboard": {
         "sub_title": "Welcome back! Here's a summary of your meetings.",
@@ -103,6 +106,42 @@
         "search_meeting": "Search meeting...",
         "will_come": "Upcoming",
         "news": "Latest"
+    },
+    "create_meeting": {
+        "title": "Create New Meeting",
+        "sub": "Schedule a new meeting and send invitations to participants",
+        "form_meet_title": "Meeting Title",
+        "form_meet_required": "Meeting title is required",
+        "form_meet_placeholder": "Enter meeting title",
+        "form_description_title": "Description",
+        "form_description_placeholder": "Description about this meeting (optional)",
+        "form_date_title": "Date",
+        "form_date_required": "Date is required",
+        "form_time_title": "Time",
+        "form_time_required": "Meeting time is required",
+        "btn_create": "Create Meeting",
+        "notif_success_title": "Meeting Scheduled Successfully",
+        "notif_success_description": "The meeting has been scheduled successfully. Please check your meeting list page for more details.",
+        "notif_error_title": "Failed to Schedule Meeting",
+        "notif_error_description": "An error occurred while saving the meeting schedule. Please double-check your input or try again later."
+    },
+    "join": {
+        "title": "Join Meeting",
+        "form_id_meet": "Meeting ID",
+        "form_id_meet_required": "Meeting ID is required",
+        "form_id_meet_placeholder": "Enter Meeting ID",
+        "btn_join": "Join",
+        "btn_back": "Back"
+    },
+    "meeting_setup": {
+        "notif_error_title": "Meeting Hasn't Started Yet",
+        "notif_error_description": "This meeting has not been started by the host. Please wait a moment and try again later.",
+        "title": "Camera Preview",
+        "sub": "Make sure you look good",
+        "detail": "Meeting Details",
+        "camera": "Camera",
+        "microphone": "Microphone",
+        "join": "Join Meeting"
     },
     "supabase": {
         "auth": {

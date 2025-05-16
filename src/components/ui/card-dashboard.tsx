@@ -1,13 +1,14 @@
 'use client';
 
+import { useNotification } from '@/lib/ant-design/notification-context';
 import {
     CalendarOutlined,
     ClockCircleOutlined,
     LinkOutlined,
     MergeOutlined,
-    TeamOutlined,
 } from '@ant-design/icons';
 import { Button, Tag } from 'antd';
+import dayjs from 'dayjs';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -15,27 +16,28 @@ import React, { useState } from 'react';
 type CardProps = {
     meetId: string;
     title: string;
-    tag: string;
-    tagColor: 'success' | 'processing' | 'error' | 'warning';
     description: string;
     date: Date | null;
     time: string;
     totalParticipant: number;
+    status: number;
 };
 
 export default function Card({
     meetId,
     title,
-    tag,
-    tagColor,
     description,
     date,
     time,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     totalParticipant,
+    status,
 }: CardProps): React.ReactNode {
     const locale = useLocale();
     const router = useRouter();
+    const { showNotification } = useNotification();
     const [loading, setLoading] = useState(false);
+    const [delayCopy, setDelayCopy] = useState(false);
     const t = useTranslations();
     const intl = new Intl.DateTimeFormat(locale, {
         weekday: 'long',
@@ -43,6 +45,19 @@ export default function Card({
         month: 'long',
         day: 'numeric',
     });
+
+    let tag = t('card_dashboard.cooming');
+    let tagColor: 'success' | 'processing' | 'error' | 'warning' = 'processing';
+
+    if (status == 1) {
+        tag = t('card_dashboard.done');
+        tagColor = 'success';
+    }
+    if (date && dayjs(date).format('YYYY-MM-DD') < dayjs().format('YYYY-MM-DD') && status == 0) {
+        tag = t('card_dashboard.absent');
+        tagColor = 'error';
+    }
+
     return (
         <div className="flex flex-col gap-2 rounded-lg border-1 border-gray-200 px-[24px] pt-[24px]">
             <div className="flex-1">
@@ -63,26 +78,48 @@ export default function Card({
                             <ClockCircleOutlined />
                             {time}
                         </div>
-                        <div className="flex gap-2">
+                        {/* <div className="flex gap-2">
                             <TeamOutlined />
                             {totalParticipant} {t('card_dashboard.participant')}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
             <div className="border-1 w-full border-gray-200 h-[1px]"></div>
             <div className="flex justify-between h-[56px] items-center pb-[10px]">
                 <Button
+                    icon={<LinkOutlined />}
                     loading={loading}
                     key="link"
                     type="link"
                     className="flex-1 flex gap-2 justify-center text-gray-800"
-                    onClick={(res) => console.log(res)}
+                    onClick={() => {
+                        setDelayCopy(true);
+                        setTimeout(() => setDelayCopy(false), 2000);
+                        if (delayCopy) {
+                            showNotification({
+                                description: 'Tunggu 2 detik sebelum melakukan copy link lagi',
+                                message: 'Gagal',
+                                type: 'error',
+                            });
+
+                            return;
+                        }
+                        navigator.clipboard.writeText(
+                            window.location.origin + '/dashboard/meet/' + meetId
+                        );
+                        showNotification({
+                            description:
+                                'Link berhasil di copy, paste di url browser untuk menuju ruang meeting',
+                            message: 'Berhasil',
+                            type: 'success',
+                        });
+                    }}
                 >
-                    <LinkOutlined />
                     {t('card_dashboard.copy')}
                 </Button>
                 <Button
+                    icon={<MergeOutlined />}
                     loading={loading}
                     type="link"
                     key="join"
@@ -92,7 +129,6 @@ export default function Card({
                         router.push('/dashboard/meet/' + meetId);
                     }}
                 >
-                    <MergeOutlined />
                     {t('card_dashboard.join')}
                 </Button>
             </div>

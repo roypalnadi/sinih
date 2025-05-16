@@ -87,7 +87,10 @@
     "card_dashboard": {
         "participant": "peserta",
         "copy": "Salin Link",
-        "join": "Gabung"
+        "join": "Gabung",
+        "done": "Selesai",
+        "absent": "Absen",
+        "cooming": "Mendatang"
     },
     "dashboard": {
         "sub_title": "Selamat datang kembali! Berikut adalah ringkasan meeting Anda.",
@@ -103,6 +106,42 @@
         "search_meeting": "Cari meeting...",
         "will_come": "Akan datang",
         "news": "Terbaru"
+    },
+    "create_meeting": {
+        "title": "Buat Meeting Baru",
+        "sub": "Jadwalkan meeting baru dan kirim undangan ke peserta",
+        "form_meet_title": "Judul Meeting",
+        "form_meet_required": "Judul meeting wajib diisi",
+        "form_meet_placeholder": "Masukan judul meeting",
+        "form_description_title": "Deskripsi",
+        "form_description_placeholder": "Deskripsi tentang meeting ini (opsional)",
+        "form_date_title": "Tanggal",
+        "form_date_required": "Tanggal wajib diisi",
+        "form_time_title": "Waktu",
+        "form_time_required": "Waktu meeting wajib diisi",
+        "btn_create": "Buat Meeeting",
+        "notif_success_title": "Jadwal Meeting Berhasil Dibuat",
+        "notif_success_description": "Meeting telah dijadwalkan dengan sukses. Silakan cek detail jadwal pada halaman daftar meeting untuk informasi lebih lanjut.",
+        "notif_error_title": "Gagal Membuat Jadwal Meeting",
+        "notif_error_description": "Terjadi kesalahan saat menyimpan jadwal meeting. Silakan periksa kembali data yang Anda masukkan atau coba beberapa saat lagi."
+    },
+    "join": {
+        "title": "Bergabung ke Rapat",
+        "form_id_meet": "ID Rapat",
+        "form_id_meet_required": "ID Rapat wajib diisi",
+        "form_id_meet_placeholder": "Masukan ID Rapat",
+        "btn_join": "Bergabung",
+        "btn_back": "Kembali"
+    },
+    "meeting_setup": {
+        "notif_error_title": "Meeting Belum Dimulai",
+        "notif_error_description": "Meeting ini belum dimulai oleh penyelenggara. Silakan tunggu beberapa saat dan coba lagi nanti.",
+        "title": "Tampilan Kamera",
+        "sub": "Pastikan kamu terlihat baik",
+        "detail": "Meeting Detail",
+        "camera": "Kamera",
+        "microphone": "Mikropon",
+        "join": "Gabung Meeting"
     },
     "supabase": {
         "auth": {

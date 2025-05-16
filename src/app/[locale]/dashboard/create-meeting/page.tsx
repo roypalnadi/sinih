@@ -3,9 +3,10 @@
 import { useNotification } from '@/lib/ant-design/notification-context';
 import { useAuth } from '@/lib/supabase/authContext';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
-import { VideoCameraAddOutlined } from '@ant-design/icons';
+import { RollbackOutlined, VideoCameraAddOutlined } from '@ant-design/icons';
 import { Button, DatePicker, Form, Input, TimePicker } from 'antd';
 import dayjs from 'dayjs';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { v4 } from 'uuid';
@@ -15,6 +16,7 @@ export default function CreateMeeting() {
     const { showNotification } = useNotification();
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const t = useTranslations();
 
     const onFinish = ({
         title,
@@ -44,8 +46,8 @@ export default function CreateMeeting() {
 
                 if (error) {
                     showNotification({
-                        description: error.message,
-                        message: 'Gagal',
+                        message: t('create_meeting.notif_failed_title'),
+                        description: t('create_meeting.notif_failed_description'),
                         type: 'error',
                     });
                     return;
@@ -54,8 +56,8 @@ export default function CreateMeeting() {
                 router.push('/dashboard');
 
                 showNotification({
-                    description: 'Data berhasil disimpan',
-                    message: 'Berhasil',
+                    message: t('create_meeting.notif_success_title'),
+                    description: t('create_meeting.notif_success_description'),
                     type: 'success',
                 });
             });
@@ -65,9 +67,18 @@ export default function CreateMeeting() {
             <div className="rounded-lg border border-gray-200 my-10 shadow-sm p-7 h-fit w-md">
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col text-left">
-                        <span className="text-xl font-bold">Buat Meeting Baru</span>
-                        <span className="text-gray-500 text-sm">
-                            {'Jadwalkan meeting baru dan kirim undangan ke peserta'}
+                        <div className="flex justify-between">
+                            <span className="text-xl font-bold">{t('create_meeting.title')}</span>
+                            <Button
+                                icon={<RollbackOutlined />}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    router.push('/dashboard');
+                                }}
+                            ></Button>
+                        </div>
+                        <span className="text-gray-500 text-sm w-90">
+                            {t('create_meeting.sub')}
                         </span>
                     </div>
 
@@ -82,50 +93,50 @@ export default function CreateMeeting() {
                             // onFinishFailed={onFinishFailed}
                         >
                             <Form.Item
-                                label="Judul Meeting"
+                                label={t('create_meeting.form_meet_title')}
                                 name="title"
                                 className="text-sm font-medium"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Judul meeting wajib diisi',
+                                        message: t('create_meeting.form_meet_required'),
                                     },
                                 ]}
                             >
-                                <Input placeholder={'Masukan judul meeting'} />
+                                <Input placeholder={t('create_meeting.form_meet_placeholder')} />
                             </Form.Item>
                             <Form.Item
-                                label="Deskripsi"
+                                label={t('create_meeting.form_description_title')}
                                 name="description"
                                 className="text-sm font-medium"
                             >
                                 <Input.TextArea
-                                    placeholder={'Deskripsi tentang meeting ini (opsional)'}
+                                    placeholder={t('create_meeting.form_description_placeholder')}
                                 />
                             </Form.Item>
 
                             <div className="flex gap-3">
                                 <Form.Item
-                                    label="Tanggal"
+                                    label={t('create_meeting.form_date_title')}
                                     name="date"
-                                    className="text-sm font-medium"
+                                    className="text-sm font-medium flex-1"
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Tanggal wajib diisi',
+                                            message: t('create_meeting.form_date_required'),
                                         },
                                     ]}
                                 >
                                     <DatePicker format="dddd, MMMM D, YYYY" />
                                 </Form.Item>
                                 <Form.Item
-                                    label="Waktu"
+                                    label={t('create_meeting.form_time_title')}
                                     name="times"
-                                    className="text-sm font-medium"
+                                    className="text-sm font-medium flex-1"
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Waktu meeting wajib diisi',
+                                            message: t('create_meeting.form_time_required'),
                                         },
                                     ]}
                                 >
@@ -141,7 +152,7 @@ export default function CreateMeeting() {
                                     htmlType="submit"
                                     loading={loading}
                                 >
-                                    Buat Meeeting
+                                    {t('create_meeting.btn_create')}
                                 </Button>
                             </Form.Item>
                         </Form>

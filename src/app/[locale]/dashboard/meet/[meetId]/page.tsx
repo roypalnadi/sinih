@@ -10,15 +10,15 @@ export default function MeetPage() {
     const client = useStreamVideoClient();
     const { meetId } = useParams();
 
-    if (client) {
-        const call = client.call('default', meetId?.toString() ?? 'Guest');
+    if (client && meetId) {
+        const call = client.call('default', meetId.toString());
         call.camera.disable();
         call.microphone.disable();
 
         return (
             <StreamCall call={call}>
                 <StreamTheme>
-                    <VideoCall />
+                    <VideoCall meetId={meetId?.toString() ?? ''} />
                 </StreamTheme>
             </StreamCall>
         );
