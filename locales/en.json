@@ -84,13 +84,34 @@
         "back_1": "Already have an account?",
         "back_2": "Login"
     },
+    "card_dashboard": {
+        "participant": "participant",
+        "copy": "Copy Link",
+        "join": "Join"
+    },
+    "dashboard": {
+        "sub_title": "Welcome back! Here's a summary of your meetings.",
+        "create_meeting": "Create Meeting",
+        "join": "Join",
+        "current_day": "Today's Meetings",
+        "current_day_description": "Total meetings today",
+        "current_week": "This Week's Meetings",
+        "current_week_description": "Total meetings this week",
+        "contact": "Contacts",
+        "contact_description": "Saved contacts",
+        "my_meeting": "My Meetings",
+        "search_meeting": "Search meeting...",
+        "will_come": "Upcoming",
+        "news": "Latest"
+    },
     "supabase": {
         "auth": {
             "invalid_credentials": "Incorrect email or password",
             "user_not_found": "User not found",
             "user_already_exists": "User is already registered",
             "weak_password": "Too weak password",
-            "email_address_invalid": "Invalid email format"
+            "email_address_invalid": "Invalid email format",
+            "email_not_confirmed": "Email not confirmation yet, please check your email first"
         }
     }
 }

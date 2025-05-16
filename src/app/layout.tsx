@@ -3,8 +3,11 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Video } from 'lucide-react';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getLocale } from 'next-intl/server';
 import { ClientProvider } from './client-provider';
+import { ConfigProvider } from 'antd';
+import idID from 'antd/locale/id_ID';
+import enUS from 'antd/locale/en_US';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -27,14 +30,16 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const messages = await getMessages();
+    const locale = await getLocale();
+    const currentLocale = locale === 'id' ? idID : enUS;
 
     return (
-        <html lang="id">
+        <html lang="id" className="scroll-smooth">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <div className="flex flex-col min-h-screen">
-                    <ClientProvider>
+                    <ClientProvider locale={locale}>
                         <NextIntlClientProvider messages={messages}>
-                            {children}
+                            <ConfigProvider locale={currentLocale}>{children}</ConfigProvider>
                         </NextIntlClientProvider>
                     </ClientProvider>
 

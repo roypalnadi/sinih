@@ -84,13 +84,34 @@
         "back_1": "Sudah memiliki akun?",
         "back_2": "Login"
     },
+    "card_dashboard": {
+        "participant": "peserta",
+        "copy": "Salin Link",
+        "join": "Gabung"
+    },
+    "dashboard": {
+        "sub_title": "Selamat datang kembali! Berikut adalah ringkasan meeting Anda.",
+        "create_meeting": "Buat Meeting",
+        "join": "Gabung",
+        "current_day": "Meeting hari ini",
+        "current_day_description": "Total meeting hari ini",
+        "current_week": "Meeting minggu ini",
+        "current_week_description": "Total meeting minggu ini",
+        "contact": "Kontak",
+        "contact_description": "Kontak yang tersimpan",
+        "my_meeting": "Meeting Saya",
+        "search_meeting": "Cari meeting...",
+        "will_come": "Akan datang",
+        "news": "Terbaru"
+    },
     "supabase": {
         "auth": {
             "invalid_credentials": "Email atau password salah",
             "user_not_found": "User tidak ditemukan",
             "user_already_exists": "User sudah pernah didaftarkan",
             "weak_password": "Password terlalu lemah",
-            "email_address_invalid": "Format email salah"
+            "email_address_invalid": "Format email salah",
+            "email_not_confirmed": "Email belum di konfirmasi, silahkan cek email anda terlebih dahulu"
         }
     }
 }

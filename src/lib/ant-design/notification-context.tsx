@@ -3,7 +3,7 @@ import { notification } from 'antd';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
-interface NotificationContextType {
+export interface NotificationContextType {
     showNotification: ({
         message,
         description,
