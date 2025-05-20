@@ -2,7 +2,8 @@
     "navbar": {
         "menu_1": "Join Meeting",
         "menu_2": "Feature",
-        "button_1": "Sign Up"
+        "button_1": "Sign Up",
+        "logout": "Logout"
     },
     "landing_page": {
         "first": "Online Meeting that is <span>Easy</span> and <span>Lightweight</span>",

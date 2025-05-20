@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Button, Input } from 'antd';
+import { Button, Input, InputRef } from 'antd';
 import {
     ArrowRight,
     Calendar,
@@ -14,9 +14,12 @@ import {
 import { useTranslations } from 'next-intl';
 import { RefObject, useRef } from 'react';
 import Navbar from './navbar';
+import { useRouter } from 'next/navigation';
 
 const LandingPage = () => {
     const t = useTranslations();
+    const joinMeet = useRef<InputRef>(null);
+    const router = useRouter();
     const sectionData = {
         join: useRef(null),
         feature: useRef(null),
@@ -47,17 +50,45 @@ const LandingPage = () => {
                             </span>
                             <div className="flex gap-2">
                                 <div className="w-full sm:w-1/2">
-                                    <Input placeholder="Masukan kode meeting" size="large" />
+                                    <Input
+                                        placeholder="Masukan kode meeting"
+                                        size="large"
+                                        ref={joinMeet}
+                                    />
                                 </div>
-                                <Button type="primary" className="text-sm !font-bold" size="large">
+                                <Button
+                                    type="primary"
+                                    className="text-sm !font-bold"
+                                    size="large"
+                                    onClick={() => {
+                                        if (joinMeet.current?.input?.value) {
+                                            router.push(
+                                                `/dashboard/meet/${joinMeet.current.input.value}`
+                                            );
+                                        }
+                                    }}
+                                >
                                     {t('landing_page.button_1')}
                                 </Button>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Button type="primary" size="large" className="text-sm !font-bold">
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    className="text-sm !font-bold"
+                                    onClick={() => {
+                                        router.push('/dashboard/create-meeting');
+                                    }}
+                                >
                                     {t('landing_page.button_2')}
                                 </Button>
-                                <Button className="text-sm" size="large">
+                                <Button
+                                    className="text-sm"
+                                    size="large"
+                                    onClick={() => {
+                                        router.push('/sign-up');
+                                    }}
+                                >
                                     {t('landing_page.button_3')}
                                 </Button>
                             </div>
@@ -159,10 +190,23 @@ const LandingPage = () => {
                     {t('landing_page.ready_sub')}
                 </span>
                 <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                    <Button type="primary" size="large" className="text-sm !font-bold">
+                    <Button
+                        type="primary"
+                        size="large"
+                        className="text-sm !font-bold"
+                        onClick={() => {
+                            router.push('/sign-up');
+                        }}
+                    >
                         {t('landing_page.button_3')} <ArrowRight size={18} />
                     </Button>
-                    <Button className="text-sm" size="large">
+                    <Button
+                        className="text-sm"
+                        size="large"
+                        onClick={() => {
+                            router.push('/dashboard/create-meeting');
+                        }}
+                    >
                         {t('landing_page.button_2')}
                     </Button>
                 </div>

@@ -2,7 +2,8 @@
     "navbar": {
         "menu_1": "Gabung Meeting",
         "menu_2": "Fitur",
-        "button_1": "Daftar"
+        "button_1": "Daftar",
+        "logout": "Keluar"
     },
     "landing_page": {
         "first": "Meeting Online yang <span>Mudah</span> dan <span>Ringan</span>",
