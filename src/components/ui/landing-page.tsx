@@ -51,7 +51,7 @@ const LandingPage = () => {
                             <div className="flex gap-2">
                                 <div className="w-full sm:w-1/2">
                                     <Input
-                                        placeholder="Masukan kode meeting"
+                                        placeholder={t('landing_page.input_meet_placeholder')}
                                         size="large"
                                         ref={joinMeet}
                                     />

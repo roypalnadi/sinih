@@ -26,7 +26,8 @@
         "feature_6": "Berbagi Layar",
         "feature_6_sub": "Presentasikan ide Anda dengan fitur berbagi layar yang mudah digunakan",
         "ready_title": "Siap Memulai Meeting?",
-        "ready_sub": "Daftar sekarang dan mulai menggunakan semua fitur Sinih"
+        "ready_sub": "Daftar sekarang dan mulai menggunakan semua fitur Sinih",
+        "input_meet_placeholder": "Masukan kode meeting"
     },
     "login": {
         "first": "Masukkan email dan password untuk mengakses akun Anda",

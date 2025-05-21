@@ -26,7 +26,8 @@
         "feature_6": "Screen Sharing",
         "feature_6_sub": "Present your ideas with an easy-to-use screen sharing feature",
         "ready_title": "Ready to Start a Meeting?",
-        "ready_sub": "Sign up now and start using all of Sinih's features"
+        "ready_sub": "Sign up now and start using all of Sinih's features",
+        "input_meet_placeholder": "Enter the meeting code"
     },
     "login": {
         "first": "Enter your email and password to access your account",

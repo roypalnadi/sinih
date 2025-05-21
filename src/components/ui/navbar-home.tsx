@@ -70,7 +70,15 @@ const NavbarHome = () => {
             label: t('navbar.logout'),
             danger: true,
             onClick: async () => {
-                await supabaseClient.auth.signOut();
+                const { error } = await supabaseClient.auth.signOut({ scope: 'local' });
+                if (error) {
+                    showNotification({
+                        message: 'Gagal logout',
+                        description: error.message,
+                        type: 'error',
+                    });
+                    return;
+                }
                 showNotification({
                     message: 'Berhasil logout',
                     description: 'sukses',
