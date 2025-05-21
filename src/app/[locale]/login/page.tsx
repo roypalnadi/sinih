@@ -8,31 +8,32 @@ import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { LoginOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useNotification } from '@/lib/ant-design/notification-context';
 import { useAuth } from '@/lib/supabase/authContext';
 
 export default function Login() {
+    const searchParams = useSearchParams();
+    const redirect = searchParams.get('redirect') || '/dashboard';
     const t = useTranslations();
     const [loading, setLoading] = useState(false);
     const { showNotification } = useNotification();
     const router = useRouter();
-    const locale = useLocale();
     const { session, sessionReady } = useAuth();
 
     useEffect(() => {
         if (sessionReady && session?.user) {
-            router.replace('/dashboard');
+            router.replace(redirect);
         }
-    }, [session, router, sessionReady]);
+    }, [session, router, sessionReady, redirect]);
 
     const loginWithGoogle = () =>
         supabaseClient.auth
             .signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${window.location.origin}/${locale}/dashboard`,
+                    redirectTo: `${window.location.origin}/${redirect}`,
                 },
             })
             .then((response) => {
@@ -44,7 +45,7 @@ export default function Login() {
             .signInWithOAuth({
                 provider: 'github',
                 options: {
-                    redirectTo: `${window.location.origin}/${locale}/dashboard`,
+                    redirectTo: `${window.location.origin}/${redirect}`,
                 },
             })
             .then((response) => {
@@ -73,7 +74,7 @@ export default function Login() {
                     description: 'Selamat datang',
                     type: 'success',
                 });
-                router.replace('/dashboard');
+                router.replace(redirect);
                 return;
             })
             .finally(() => setLoading(false));

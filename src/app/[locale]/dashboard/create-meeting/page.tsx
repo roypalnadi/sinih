@@ -46,8 +46,8 @@ export default function CreateMeeting() {
 
                 if (error) {
                     showNotification({
-                        message: t('create_meeting.notif_failed_title'),
-                        description: t('create_meeting.notif_failed_description'),
+                        message: t('create_meeting.notif_error_title'),
+                        description: t('create_meeting.notif_error_description'),
                         type: 'error',
                     });
                     return;

@@ -34,15 +34,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setSession(data.session ?? null);
             setSessionReady(true);
         });
-
-        // Pantau perubahan auth
-        const {
-            data: { subscription },
-        } = supabaseClient.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-        });
-
-        return () => subscription.unsubscribe(); // Bersihkan listener saat unmount
     }, []);
 
     return (

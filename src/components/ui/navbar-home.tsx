@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/supabase/authContext';
 import { supabaseClient } from '@/lib/supabase/supabaseClient';
 import { Avatar, Button, Dropdown, MenuProps } from 'antd';
 import { Video } from 'lucide-react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -16,6 +16,7 @@ const NavbarHome = () => {
     const [loading, setLoading] = useState(false);
     const locale = useLocale();
     const pathname = usePathname();
+    const t = useTranslations();
 
     const switchLocale = () => {
         setLoading(true);
@@ -66,17 +67,16 @@ const NavbarHome = () => {
         },
         {
             key: 'logout',
-            label: 'Keluar',
+            label: t('navbar.logout'),
             danger: true,
             onClick: async () => {
-                const { error } = await supabaseClient.auth.signOut();
+                const { error } = await supabaseClient.auth.signOut({ scope: 'local' });
                 if (error) {
                     showNotification({
-                        message: 'Error',
-                        description: error.message ?? '',
+                        message: 'Gagal logout',
+                        description: error.message,
                         type: 'error',
                     });
-
                     return;
                 }
                 showNotification({
